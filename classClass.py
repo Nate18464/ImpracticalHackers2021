@@ -39,15 +39,16 @@ class Course:
         for i in range(len(self.prereqs)):
             for j in range(len(self.prereqs[i])):
                 string += self.prereqs[i][j]
-                if i != len(self.prereqs[i])-1:
-                string += " or "
+                if j != len(self.prereqs[i])-1:
+                    string += " or "
             if i != len(self.prereqs)-1:
                 string += ", "
             else:
                 string += " "
+        return string
 
     def retstr(self):
-        return self.name + " Units: " + str(self.units) + " Prereqs: " + prereqstr(self)
+        return self.name + " Units: " + str(self.units) + " Prereqs: " + self.prereqstr()
 
     def canTake(self, courses_taken):
         if self.taken == True:
@@ -88,38 +89,43 @@ ECS122B = Course("ECS 122B", 4, [["ECS 122A"]], False)
 ECS124 = Course("ECS 124", 4, [["ECS 36A"], ["MAT 135A", "STA 131A"], ["BIS 2A"]], False)
 ECS127 = Course("ECS 127", 4, [["ECS 20"], ["ECS 36A"]], True)
 #Fill out prereqs for the classes below, note, it is a list of lists where if there is multiple strings in a list, it means or.
-ECS129 = Course("ECS 129", 4, [], False)
-ECS130 = Course("ECS 130", 4, [], False)
-ECS132 = Course("ECS 132", 4, [], False)
-ECS140A = Course("ECS 140A", 4, [], True)
-ECS140B = Course("ECS 140B", 4, [], False)
-ECS142 = Course("ECS 142", 4, [], False)
-ECS145 = Course("ECS 145", 4, [], False)
-ECS150 = Course("ECS 150", 4, [], True)
-ECS152A = Course("ECS 152A", 4, [], True)
-ECS152B = Course("ECS 152B", 4, [], True)
-ECS152C = Course("ECS 152C", 4, [], False)
-ECS153 = Course("ECS 153", 4, [], False)
-ECS154A = Course("ECS 154A", 4, [], True)
-ECS154B = Course("ECS 154B", 4, [], False)
-ECS158 = Course("ECS 158", 4, [], False)
-ECS160 = Course("ECS 160", 4, [], False)
-ECS161 = Course("ECS 161", 4, [], False)
-ECS162 = Course("ECS 162", 4, [], False)
-ECS163 = Course("ECS 163", 4, [], False)
+ECS129 = Course("ECS 129", 4, [["BIS 2A"],["ECS 36A"]], False)
+ECS130 = Course("ECS 130", 4, [["ECS 36A"], ["MAT 22A"]], False)
+ECS132 = Course("ECS 132", 4, [["ECS 36B"], ["ECS 20"], ["MAT 21C"],["MAT 22A"]], False)
+ECS140A = Course("ECS 140A", 4, [["ECS 50"], ["ECS 36C"], ["ECS 20"], ["ECS 150"]], True)
+ECS140B = Course("ECS 140B", 4, [["ECS 140A"]], False)
+ECS142 = Course("ECS 142", 4, [["ECS 140A"], ["ECS 120"]], False)
+ECS145 = Course("ECS 145", 4, [["ECS 36C"]], False)
+ECS150 = Course("ECS 150", 4, [["ECS 36C"], ["ECS 154A"]], True)
+ECS152A = Course("ECS 152A", 4, [["ECS 36C"],["ECS 132", "MAT 135A", "STA 131A"]], True)
+ECS152B = Course("ECS 152B", 4, [["ECS 150"], ["ECS 152A"]], True)
+ECS152C = Course("ECS 152C", 4, [["ECS 152A"]], False)
+ECS153 = Course("ECS 153", 4, [["ECS 150"], ["ECS 152A"]], False)
+ECS154A = Course("ECS 154A", 4, [["ECS 50"]], True)
+ECS154B = Course("ECS 154B", 4, [["ECS 154A"]], False)
+ECS158 = Course("ECS 158", 4, [["ECS 150"]], False)
+ECS160 = Course("ECS 160", 4, [["ECS 140A"]], False)
+ECS161 = Course("ECS 161", 4, [["ECS 36B"]], False)
+ECS162 = Course("ECS 162", 4, [["ECS 36B"]], False)
+ECS163 = Course("ECS 163", 4, [["ECS 36C"]], False)
 ECS164 = Course("ECS 164", 4, [], False)
-ECS165A = Course("ECS 165A", 4, [], True)
-ECS165B = Course("ECS 165B", 4, [], False)
-ECS170 = Course("ECS 170", 4, [], False)
-ECS171 = Course("ECS 171", 4, [], False)
-ECS173 = Course("ECS 173", 4, [], False)
-ECS174 = Course("ECS 174", 4, [], False)
-ECS175 = Course("ECS 175", 4, [], False)
-ECS177 = Course("ECS 177", 4, [], False)
-ECS178 = Course("ECS 178", 4, [], False)
+ECS165A = Course("ECS 165A", 4, [["ECS 36C"]], True)
+ECS165B = Course("ECS 165B", 4, [["ECS 165A"]], False)
+ECS170 = Course("ECS 170", 4, [["ECS 36C"]], False)
+ECS171 = Course("ECS 171", 4, [["ECS 36C"]], False)
+ECS173 = Course("ECS 173", 4, [["MAT 22A"], ["ECS 36C"]], False)
+ECS174 = Course("ECS 174", 4, [["ECS 36C"]], False)
+ECS175 = Course("ECS 175", 4, [["MAT 22A"], ["ECS 36C"]], False)
+ECS177 = Course("ECS 177", 4, [["ECS 175"]], False)
+ECS178 = Course("ECS 178", 4, [["ECS 175"]], False)
 ECS188 = Course("ECS 188", 4, [], False)
 # Can you please finish this part :)
-Allcourse = [MAT21A, MAT21B, MAT21C, MAT22A, CHE2A,
-ECS170
-ECS171 
-ECS173, ECS174, ECS175, ECS177, ECS178, ECS188]
+Allcourse = [MAT21A, MAT21B, MAT21C, MAT22A,
+CHE2A, CHE2B, CHE2C, PHY9A, PHY9B, PHY9C, BIS2A, BIS2B, BIS2C,
+STA131A, STA131B, MAT108, MAT135A,
+ECS20, ECS36A, ECS36B, ECS36C, ECS50, 
+ECS122A, ECS120, ECS122B, ECS124, ECS129,
+ECS130, ECS132, ECS140A, ECS140B, ECS142, ECS145,
+ECS150, ECS152A, ECS152B, ECS152C, ECS153, ECS154A, ECS154B, ECS158,
+ECS160, ECS161, ECS162, ECS163, ECS164, ECS165A, ECS165B,
+ECS170, ECS171, ECS173, ECS174, ECS175, ECS177, ECS178, ECS188]
