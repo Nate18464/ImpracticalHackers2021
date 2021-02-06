@@ -69,18 +69,20 @@ def tutorialPass(*args):
     passtimelabel.grid(column = 0, row = 2, columnspan = 2)
     hubpassbutton.grid_remove()
     hubcheckcoursebutton["text"] = "Great job! Now, search for your courses!"
-
-
-def notCheckedPass(*args):
-    hubframe.grid_remove()
-    notcheckedpassframe.grid()
+    hubsearchbutton["state"] = NORMAL
 
 def hub(*args):
     hubframe.grid()
-    notcheckedpassframe.grid_remove()
 
-def hubfrompass(*args):
-    hubframe.grid()
+def tutorialSearch(*args):
+    hubframe.destroy()
+    searchframe.grid()
+
+def tutorialCheckCourse(*args):
+    pass
+
+def tutorialSubmit(*args):
+    pass
 
 
 root = Tk()
@@ -88,6 +90,7 @@ root.title("UC Davis Class Simulator")
 
 introframe = ttk.Frame(root, padding="3 3 12 12")
 introframe.grid(column = 0, row = 0, sticky =(N,W,E,S))
+introframe.grid_remove()
 introtext = ttk.Label(introframe, text = "Unknown Person: Welcome to UC Davis!")
 introtext.grid(column = 0, row = 0, columnspan = 2)
 introbutton = ttk.Button(introframe, text = "Who are you?",command=intro2)
@@ -96,19 +99,17 @@ for child in introframe.winfo_children(): child.grid_configure(padx = 5, pady = 
 
 hubframe = ttk.Frame(root, padding = "3 3 12 12")
 hubframe.grid(column = 0, row = 0, sticky = (N,E,W,S))
-hubframe.grid_remove()
-
 hubdisplayyearlabel = ttk.Label(hubframe, text = "Year: Freshman")
 hubdisplayyearlabel.grid(column = 0, row = 0)
 hubdisplayquarterlabel = ttk.Label(hubframe, text = "Quarter: Fall")
 hubdisplayquarterlabel.grid(column = 1, row = 0)
-hubsearchbutton = ttk.Button(hubframe, text = "Search for courses", command = notCheckedPass)
+hubsearchbutton = ttk.Button(hubframe, text = "Search for courses", command = tutorialSearch, state = DISABLED)
 hubsearchbutton.grid(column = 0, row = 1, columnspan = 2)
 hubpassbutton = ttk.Button(hubframe, text = "Check your pass time", command = tutorialPass)
 hubpassbutton.grid(column = 0, row = 2, columnspan = 2)
-hubcheckcoursebutton = ttk.Button(hubframe, text = "Check what courses you've signed up for", command = notCheckedPass)
+hubcheckcoursebutton = ttk.Button(hubframe, text = "Check what courses you've signed up for", command = tutorialCheckCourse, state = DISABLED)
 hubcheckcoursebutton.grid(column = 0, row = 3, columnspan = 2)
-hubsubmitbutton = ttk.Button(hubframe, text = "Submit schedule", command = notCheckedPass)
+hubsubmitbutton = ttk.Button(hubframe, text = "Submit schedule", command = tutorialSubmit, state = DISABLED)
 hubsubmitbutton.grid(column = 0, row = 4, columnspan = 2)
 hubtutoriallabel = ttk.Label(hubframe, text = "Click to check your pass time!")
 hubtutoriallabel.grid(column = 0, row = 5, columnspan = 2)
@@ -117,19 +118,13 @@ year = [0]
 quarter = [0]
 for child in hubframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,S))
 
-notcheckedpassframe = ttk.Frame(root, padding = "3 3 12 12")
-notcheckedpassframe.grid(row = 0, column = 0, sticky = (N,W,E,S))
-notcheckedpassframe.grid_remove()
-notcheckedpasslabel = ttk.Label(notcheckedpassframe, text = "You haven't checked your pass time yet")
-notcheckedpasslabel.grid(column = 0,row = 0)
-notcheckedpassbutton = ttk.Button(notcheckedpassframe, text = "Go back", command = hub)
-notcheckedpassbutton.grid(column = 0, row = 1)
-for child in notcheckedpassframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,S))
-
-
-
-
-
-
+searchframe = ttk.Frame(root, padding="3 3 12 12")
+searchframe.grid(column = 0, row = 0, sticky =(N,W,E,S))
+searchframe.grid_remove()
+chooseGEbutton = ttk.Button(searchframe, text = "Choose GE Classes")
+chooseGEbutton.grid(column = 0, row = 0, columnspan = 2)
+chooseMajorclassbutton = ttk.Button(searchframe, text = "Choose Major Classes",command=intro2)
+chooseMajorclassbutton.grid(column = 0, row = 1)
+for child in searchframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
 
 root.mainloop()
