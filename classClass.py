@@ -9,11 +9,12 @@ def In(coursename, prereq):
 # class for major classes
 class Course:
     #Initialize itself with a value
-    def __init__(self, name, units, prereqs):
+    def __init__(self, name, units, prereqs, isprereq):
         self.name = name # example ECS 36A
         self.units = units
         self.prereqs = prereqs # list of course names
         self.taken = False
+        self.isprereq = isprereq
 
     def getname(self):
         return self.name
@@ -30,6 +31,9 @@ class Course:
     def hasTook(self):
         return self.taken
 
+    def isprereq(self):
+        return self.isprereq
+
     def canTake(self, courses_taken):
         if self.taken == True:
             return False
@@ -41,61 +45,61 @@ class Course:
                 prereqs_taken += 1
         return prereqs_taken == len(self.prereqs)
 
-MAT21A = Course("MAT 21A", 4, [])
-MAT21B = Course("MAT 21B", 4, [["MAT 21A"]])
-MAT21C = Course("MAT 21C", 4, [["MAT 21B"]])
-MAT22A = Course("MAT 22A", 4, [["MAT 21C"]])
-CHE2A = Course("CHE 2A",5,[])
-CHE2B = Course("CHE 2B",5,[["CHE 2A"]])
-CHE2C = Course("CHE 2C",5,[["CHE 2B"]])
-PHY9A = Course("PHY 9A",5,[])
-PHY9B = Course("PHY 9B",5,[["PHY 9A"]])
-PHY9C = Course("PHY 9C",5,[["PHY 9B"]])
-BIS2A = Course("BIS 2A",5,[])
-BIS2B = Course("BIS 2B",5,[["BIS 2A"]])
-BIS2C = Course("BIS 2C",5,[["BIS 2B"]])
-STA131A = Course("STA 131A",4,[["MAT 21C"], ["MAT 22A"]])
-STA131B = Course("STA 131B",4,[["STA 131A"]])
-MAT108 = Course("MAT 108",4,[["MAT 21B"]])
-MAT135A = Course("MAT 135A",4,[["MAT 108"]])
-ECS20 = Course("ECS 20", 4, [["MAT 21A"]])
-ECS36A = Course("ECS 36A", 4, [])
-ECS36B = Course("ECS 36B", 4, [["ECS 36A"]])
-ECS36C = Course("ECS 36C", 4, [["ECS 36B"]])
-ECS50 = Course("ECS 50", 4, [["ECS 36B"]])
-ECS120 = Course("ECS 120", 4, [["ECS 20"], ["ECS 36C"]])
-ECS122A = Course("ECS 122A", 4, [["ECS 20"], ["ECS 36C"]])
-ECS122B = Course("ECS 122B", 4, [["ECS 122A"]])
-ECS124 = Course("ECS 124", 4, [["ECS 36A"], ["MAT 135A", "STA 131A"], ["BIS 2A"]])
-ECS127 = Course("ECS 127", 4, [["ECS 20"], ["ECS 36A"]])
+MAT21A = Course("MAT 21A", 4, [], True)
+MAT21B = Course("MAT 21B", 4, [["MAT 21A"]], True)
+MAT21C = Course("MAT 21C", 4, [["MAT 21B"]], True)
+MAT22A = Course("MAT 22A", 4, [["MAT 21C"]], True)
+CHE2A = Course("CHE 2A",5,[], True)
+CHE2B = Course("CHE 2B",5,[["CHE 2A"]], True)
+CHE2C = Course("CHE 2C",5,[["CHE 2B"]], False)
+PHY9A = Course("PHY 9A",5,[], True)
+PHY9B = Course("PHY 9B",5,[["PHY 9A"]], True)
+PHY9C = Course("PHY 9C",5,[["PHY 9B"]], False)
+BIS2A = Course("BIS 2A",5,[], True)
+BIS2B = Course("BIS 2B",5,[["BIS 2A"]], True)
+BIS2C = Course("BIS 2C",5,[["BIS 2B"]], False)
+STA131A = Course("STA 131A",4,[["MAT 21C"], ["MAT 22A"]], True)
+STA131B = Course("STA 131B",4,[["STA 131A"]], False)
+MAT108 = Course("MAT 108",4,[["MAT 21B"]], True)
+MAT135A = Course("MAT 135A",4,[["MAT 108"]], True)
+ECS20 = Course("ECS 20", 4, [["MAT 21A"]], True)
+ECS36A = Course("ECS 36A", 4, [], True)
+ECS36B = Course("ECS 36B", 4, [["ECS 36A"]], True)
+ECS36C = Course("ECS 36C", 4, [["ECS 36B"]], False)
+ECS50 = Course("ECS 50", 4, [["ECS 36B"]], True)
+ECS120 = Course("ECS 120", 4, [["ECS 20"], ["ECS 36C"]], True)
+ECS122A = Course("ECS 122A", 4, [["ECS 20"], ["ECS 36C"]], True)
+ECS122B = Course("ECS 122B", 4, [["ECS 122A"]], False)
+ECS124 = Course("ECS 124", 4, [["ECS 36A"], ["MAT 135A", "STA 131A"], ["BIS 2A"]], False)
+ECS127 = Course("ECS 127", 4, [["ECS 20"], ["ECS 36A"]], True)
 #Fill out prereqs for the classes below, note, it is a list of lists where if there is multiple strings in a list, it means or.
-ECS129 = Course("ECS 129", 4, [])
-ECS130 = Course("ECS 130", 4, [])
-ECS132 = Course("ECS 132", 4, [])
-ECS140A = Course("ECS 140A", 4, [])
-ECS140B = Course("ECS 140B", 4, [])
-ECS142 = Course("ECS 142", 4, [])
-ECS145 = Course("ECS 145", 4, [])
-ECS150 = Course("ECS 150", 4, [])
-ECS152A = Course("ECS 152A", 4, [])
-ECS152B = Course("ECS 152B", 4, [])
-ECS152C = Course("ECS 152C", 4, [])
-ECS153 = Course("ECS 153", 4, [])
-ECS154A = Course("ECS 154A", 4, [])
-ECS154B = Course("ECS 154B", 4, [])
-ECS158 = Course("ECS 158", 4, [])
-ECS160 = Course("ECS 160", 4, [])
-ECS161 = Course("ECS 161", 4, [])
-ECS162 = Course("ECS 162", 4, [])
-ECS163 = Course("ECS 163", 4, [])
-ECS164 = Course("ECS 164", 4, [])
-ECS165A = Course("ECS 165A", 4, [])
-ECS165B = Course("ECS 165B", 4, [])
-ECS170 = Course("ECS 170", 4, [])
-ECS171 = Course("ECS 171", 4, [])
-ECS173 = Course("ECS 173", 4, [])
-ECS174 = Course("ECS 174", 4, [])
-ECS175 = Course("ECS 175", 4, [])
-ECS177 = Course("ECS 177", 4, [])
-ECS178 = Course("ECS 178", 4, [])
-ECS188 = Course("ECS 188", 4, [])
+ECS129 = Course("ECS 129", 4, [], False)
+ECS130 = Course("ECS 130", 4, [], False)
+ECS132 = Course("ECS 132", 4, [], False)
+ECS140A = Course("ECS 140A", 4, [], True)
+ECS140B = Course("ECS 140B", 4, [], False)
+ECS142 = Course("ECS 142", 4, [], False)
+ECS145 = Course("ECS 145", 4, [], False)
+ECS150 = Course("ECS 150", 4, [], True)
+ECS152A = Course("ECS 152A", 4, [], True)
+ECS152B = Course("ECS 152B", 4, [], True)
+ECS152C = Course("ECS 152C", 4, [], False)
+ECS153 = Course("ECS 153", 4, [], False)
+ECS154A = Course("ECS 154A", 4, [], True)
+ECS154B = Course("ECS 154B", 4, [], False)
+ECS158 = Course("ECS 158", 4, [], False)
+ECS160 = Course("ECS 160", 4, [], False)
+ECS161 = Course("ECS 161", 4, [], False)
+ECS162 = Course("ECS 162", 4, [], False)
+ECS163 = Course("ECS 163", 4, [], False)
+ECS164 = Course("ECS 164", 4, [], False)
+ECS165A = Course("ECS 165A", 4, [], True)
+ECS165B = Course("ECS 165B", 4, [], False)
+ECS170 = Course("ECS 170", 4, [], False)
+ECS171 = Course("ECS 171", 4, [], False)
+ECS173 = Course("ECS 173", 4, [], False)
+ECS174 = Course("ECS 174", 4, [], False)
+ECS175 = Course("ECS 175", 4, [], False)
+ECS177 = Course("ECS 177", 4, [], False)
+ECS178 = Course("ECS 178", 4, [], False)
+ECS188 = Course("ECS 188", 4, [], False)
