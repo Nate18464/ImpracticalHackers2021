@@ -1,4 +1,3 @@
-
 from tkinter import *
 from tkinter import ttk
 import random
@@ -67,17 +66,38 @@ def tutorialPass(*args):
     ranpasstime = generateRanPassTime()
     passtime = strPassTime(ranpasstime)
     passtimelabel["text"] = passtime
-    passtimelabel.grid(column = 0, row = 2, columnspan = 2)
+    passtimelabel.grid(column = 0, row = 1, columnspan = 2)
     hubpassbutton.grid_remove()
-    hubcheckcoursebutton["text"] = "Great job! Now, search for your courses!"
-    hubsearchbutton["state"] = NORMAL
+    hubcatalogbutton["state"] = NORMAL
+    hubtutoriallabel["text"] = "Great job! Now, check the course catalog!"
 
 def hub(*args):
     hubframe.grid()
-    notcheckedpassframe.grid_remove()
 
-def hubfrompass(*args):
+def tutorialCatalog(*args):
+    hubframe.grid_remove()
+    catalogframe.grid()
+    Allcourse = []
+    for i in range(len(Allcourse)):
+        catalogCourseLabels.append(ttk.Label(catalogframe, text = Allcourse[i].retstr))
+        catalogCourseLabels[i].grid(column = i%8, row = i/8)
+    for child in catalogframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
+
+def hubfromcatalog(*args):
     hubframe.grid()
+    catalogframe.grid_remove()
+    hubsearchbutton["state"] = NORMAL
+    hubtutoriallabel["text"] = "Amazing, now sign up for classes!"
+
+def tutorialSearch(*args):
+    hubframe.grid_remove()
+    searchframe.grid()
+
+def tutorialCheckCourse(*args):
+    pass
+
+def tutorialSubmit(*args):
+    pass
 
 
 root = Tk()
@@ -98,19 +118,39 @@ hubdisplayyearlabel = ttk.Label(hubframe, text = "Year: Freshman")
 hubdisplayyearlabel.grid(column = 0, row = 0)
 hubdisplayquarterlabel = ttk.Label(hubframe, text = "Quarter: Fall")
 hubdisplayquarterlabel.grid(column = 1, row = 0)
-hubsearchbutton = ttk.Button(hubframe, text = "Search for courses", command = tutorialSearch, state = DISABLED)
-hubsearchbutton.grid(column = 0, row = 1, columnspan = 2)
 hubpassbutton = ttk.Button(hubframe, text = "Check your pass time", command = tutorialPass)
-hubpassbutton.grid(column = 0, row = 2, columnspan = 2)
+hubpassbutton.grid(column = 0, row = 1, columnspan = 2)
+hubcatalogbutton = ttk.Button(hubframe, text = "Search the catalog", command = tutorialCatalog, state = DISABLED)
+hubcatalogbutton.grid(column = 0, row = 2, columnspan = 2)
+hubsearchbutton = ttk.Button(hubframe, text = "Search for courses", command = tutorialSearch, state = DISABLED)
+hubsearchbutton.grid(column = 0, row = 3, columnspan = 2)
 hubcheckcoursebutton = ttk.Button(hubframe, text = "Check what courses you've signed up for", command = tutorialCheckCourse, state = DISABLED)
-hubcheckcoursebutton.grid(column = 0, row = 3, columnspan = 2)
+hubcheckcoursebutton.grid(column = 0, row = 4, columnspan = 2)
 hubsubmitbutton = ttk.Button(hubframe, text = "Submit schedule", command = tutorialSubmit, state = DISABLED)
-hubsubmitbutton.grid(column = 0, row = 4, columnspan = 2)
+hubsubmitbutton.grid(column = 0, row = 5, columnspan = 2)
 hubtutoriallabel = ttk.Label(hubframe, text = "Click to check your pass time!")
-hubtutoriallabel.grid(column = 0, row = 5, columnspan = 2)
+hubtutoriallabel.grid(column = 0, row = 6, columnspan = 2)
 passtimelabel = ttk.Label(hubframe, text = "")
 year = [0]
 quarter = [0]
 for child in hubframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,S))
+
+catalogframe = ttk.Frame(root, padding="3 3 12 12")
+catalogframe.grid(column = 0, row = 0, sticky = (N,W,E,S))
+catalogframe.grid_remove()
+catalogCourseLabels = []
+catalogButton = ttk.Button(catalogframe, text = "Back to hub", command = hubfromcatalog)
+catalogButton.grid(row = 8, column = 0) # will change row depending on catalog later
+catalogTutorialLabel = ttk.Label(catalogframe, text = "This shows all the courses that go towards your major")
+catalogTutorialLabel.grid(row = 9, column = 0, columnspan = 2)
+
+searchframe = ttk.Frame(root, padding="3 3 12 12")
+searchframe.grid(column = 0, row = 0, sticky =(N,W,E,S))
+searchframe.grid_remove()
+chooseGEbutton = ttk.Button(searchframe, text = "Choose GE Classes")
+chooseGEbutton.grid(column = 0, row = 0, columnspan = 2)
+chooseMajorclassbutton = ttk.Button(searchframe, text = "Choose Major Classes",command=intro2)
+chooseMajorclassbutton.grid(column = 0, row = 1)
+for child in searchframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
 
 root.mainloop()
