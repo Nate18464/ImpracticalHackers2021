@@ -123,8 +123,43 @@ def tutorialSearch(*args):
 def tutgesearch(*args):
     pass
 
+def mjrClsSearch(*args):
+    searchframe.grid_remove()
+
+    mjr_cls_frame.grid()
+
+def hubfromtutmajorsearch(*args):
+    hubframe.grid()
+    mjr_cls_frame.grid_remove()
+    chooseMajorclassbutton["command"] = mjrClsSearch
+    hubcheckcoursebutton["state"] = NORMAL
+
+def pick_mjr_class(*args):
+    selection = mjr_cls_picked.get()
+    index = int(selection)
+    courseschosen.append(selection)
+    mjr_cls_buttons[index]["state"] = DISABLED
+    mjr_cls_labels[index]["text"] = "You have choosen this class"
+    
+
 def tutmajorsearch(*args):
-    pass
+    mjr_cls_frame.grid()
+    searchframe.grid_remove()
+    courses = classClass.Allcourse
+    
+    for x in range(len(courses)):
+        mjr_cls_button = Radiobutton(mjr_cls_frame, text = courses[x].getname(), variable=mjr_cls_picked, value=x, indicator=0)
+        mjr_cls_label = ttk.Label(mjr_cls_frame, text = "")
+
+        if courses[x].canTake(prereqtaken) == False:
+            mjr_cls_button["state"] = DISABLED
+            mjr_cls_label["text"] = "You are missing a prereq"
+
+        mjr_cls_buttons.append(mjr_cls_button)
+        mjr_cls_labels.append(mjr_cls_label)
+        mjr_cls_buttons[x].grid(column = int(x/8)*2, row = x%8 + 2)
+        mjr_cls_labels[x].grid(column = int(x/8)*2+1, row = x%8 + 2)
+    for child in mjr_cls_frame.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
 
 def tutorialCheckCourse(*args):
     pass
@@ -217,4 +252,21 @@ chooseMajorclassbutton = ttk.Button(searchframe, text = "Choose Major Classes",c
 chooseMajorclassbutton.grid(column = 0, row = 1)
 for child in searchframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
 
+#choosing your major class
+mjr_cls_frame = ttk.Frame(root, padding="3 3 12 12")
+mjr_cls_frame.grid(column = 0, row = 0, sticky =(N,W,E,S))
+mjr_cls_frame.grid_remove()
+mjr_cls_label = ttk.Label(mjr_cls_frame, text = "Major Classes:")
+mjr_cls_label.grid(column = 0, row = 0)
+mjr_cls_buttons = []
+mjr_cls_labels = []
+mjr_cls_picked = StringVar()
+pick_mjr_cls_button = ttk.Button(mjr_cls_frame, text = "Pick this class", command=pick_mjr_class)
+pick_mjr_cls_button.grid(column = 1, row = 11)
+mjr_class_return = ttk.Button(mjr_cls_frame, text = "Return to hub", command = hubfromtutmajorsearch)
+mjr_class_return.grid(column = 0, row = 11)
+
+
+courseschosen = [] #list of course objects
+prereqtaken = [] #list of course objects
 root.mainloop()
