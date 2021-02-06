@@ -39,7 +39,7 @@ def intro7(*args):
     introbutton["command"] = intro8
  
 def intro8(*args):
-    introtext["text"] = "Stephanie: That’s the time you get to get to register your schedule. It’s completely random. Have you gotten yours yet?"
+    introtext["text"] = "Stephanie: That’s the time you can register for classes. It’s completely random. Have you gotten yours yet?"
     introbutton["text"] = "No"
     introbutton["command"] = intro9
 
@@ -58,6 +58,10 @@ def hub(*args):
     hubframe.grid()
     notcheckedpassframe.grid_remove()
 
+def hubfrompass(*args):
+    hubframe.grid()
+    passtimeframe.grid_remove()
+
 
 root = Tk()
 root.title("UC Davis Class Simulator")
@@ -74,17 +78,19 @@ hubframe = ttk.Frame(root, padding = "3 3 12 12")
 hubframe.grid(column = 0, row = 0, sticky = (N,E,W,S))
 hubframe.grid_remove()
 hubdisplayyearlabel = ttk.Label(hubframe, text = "Year: Freshman")
+hubdisplayyearlabel.grid(column = 0, row = 0)
 hubdisplayquarterlabel = ttk.Label(hubframe, text = "Quarter: Fall")
+hubdisplayquarterlabel.grid(column = 1, row = 0)
 hubsearchbutton = ttk.Button(hubframe, text = "Search for courses", command = notCheckedPass)
-hubsearchbutton.grid(column = 0, row = 1)
+hubsearchbutton.grid(column = 0, row = 1, columnspan = 2)
 hubpassbutton = ttk.Button(hubframe, text = "Check your pass time", command = tutorialPass)
-hubpassbutton.grid(column = 0, row = 2)
+hubpassbutton.grid(column = 0, row = 2, columnspan = 2)
 hubcheckcoursebutton = ttk.Button(hubframe, text = "Check what courses you've signed up for", command = notCheckedPass)
-hubcheckcoursebutton.grid(column = 0, row = 3)
+hubcheckcoursebutton.grid(column = 0, row = 3, columnspan = 2)
 hubsubmitbutton = ttk.Button(hubframe, text = "Submit schedule", command = notCheckedPass)
-hubsubmitbutton.grid(column = 0, row = 4)
+hubsubmitbutton.grid(column = 0, row = 4, columnspan = 2)
 hubtutoriallabel = ttk.Label(hubframe, text = "Click to check your pass time!")
-hubtutoriallabel.grid(column = 0, row = 5)
+hubtutoriallabel.grid(column = 0, row = 5, columnspan = 2)
 year = [0]
 quarter = [0]
 for child in hubframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,S))
