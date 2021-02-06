@@ -118,3 +118,8 @@ ECS175 = Course("ECS 175", 4, [], False)
 ECS177 = Course("ECS 177", 4, [], False)
 ECS178 = Course("ECS 178", 4, [], False)
 ECS188 = Course("ECS 188", 4, [], False)
+# Can you please finish this part :)
+Allcourse = [MAT21A, MAT21B, MAT21C, MAT22A, CHE2A,
+ECS170
+ECS171 
+ECS173, ECS174, ECS175, ECS177, ECS178, ECS188]
