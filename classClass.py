@@ -34,6 +34,21 @@ class Course:
     def isprereq(self):
         return self.isprereq
 
+    def prereqstr(self):
+        string = ""
+        for i in range(len(self.prereqs)):
+            for j in range(len(self.prereqs[i])):
+                string += self.prereqs[i][j]
+                if i != len(self.prereqs[i])-1:
+                string += " or "
+            if i != len(self.prereqs)-1:
+                string += ", "
+            else:
+                string += " "
+
+    def retstr(self):
+        return self.name + " Units: " + str(self.units) + " Prereqs: " + prereqstr(self)
+
     def canTake(self, courses_taken):
         if self.taken == True:
             return False
