@@ -3,10 +3,25 @@ from tkinter import ttk
 import random
 
 def generateRanPassTime():
-    day = random.randint(0,5)
+    day = random.randint(0,4)
     timehour = random.randint(0,12)
     timemin = random.randint(0,1)
-    return [day, timehour, timemine]
+    return [day, timehour, timemin]
+
+def strPassTime(passtimelist):
+    days = ["Mon ", "Tues ", "Wed ", "Thur ", "Fri "]
+    ampm = " AM"
+    minutes = "00"
+    time = passtimelist[1] + 5
+    if time > 11:
+        ampm = " PM"
+        if time > 12:
+            time -= 12
+    if passtimelist[2] != 0:
+        minutes = "30"
+    passtime = days[passtimelist[0]] + str(time) + ":" + minutes + ampm
+    return passtime    
+
 
 def intro2(*args):
     introtext["text"] = "Unknown Person: Oh sorry, I forgot to introduce myself! I'm your orientation leader, Stephanie"
@@ -48,7 +63,13 @@ def intro9(*args):
     hubframe.grid()
 
 def tutorialPass(*args):
-    hubframe.grid_remove()
+    ranpasstime = generateRanPassTime()
+    passtime = strPassTime(ranpasstime)
+    passtimelabel["text"] = passtime
+    passtimelabel.grid(column = 0, row = 2, columnspan = 2)
+    hubpassbutton.grid_remove()
+    hubcheckcoursebutton["text"] = "Great job! Now, search for your courses!"
+
 
 def notCheckedPass(*args):
     hubframe.grid_remove()
@@ -60,7 +81,6 @@ def hub(*args):
 
 def hubfrompass(*args):
     hubframe.grid()
-    passtimeframe.grid_remove()
 
 
 root = Tk()
@@ -77,6 +97,7 @@ for child in introframe.winfo_children(): child.grid_configure(padx = 5, pady = 
 hubframe = ttk.Frame(root, padding = "3 3 12 12")
 hubframe.grid(column = 0, row = 0, sticky = (N,E,W,S))
 hubframe.grid_remove()
+
 hubdisplayyearlabel = ttk.Label(hubframe, text = "Year: Freshman")
 hubdisplayyearlabel.grid(column = 0, row = 0)
 hubdisplayquarterlabel = ttk.Label(hubframe, text = "Quarter: Fall")
@@ -91,6 +112,7 @@ hubsubmitbutton = ttk.Button(hubframe, text = "Submit schedule", command = notCh
 hubsubmitbutton.grid(column = 0, row = 4, columnspan = 2)
 hubtutoriallabel = ttk.Label(hubframe, text = "Click to check your pass time!")
 hubtutoriallabel.grid(column = 0, row = 5, columnspan = 2)
+passtimelabel = ttk.Label(hubframe, text = "")
 year = [0]
 quarter = [0]
 for child in hubframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,S))
@@ -104,9 +126,10 @@ notcheckedpassbutton = ttk.Button(notcheckedpassframe, text = "Go back", command
 notcheckedpassbutton.grid(column = 0, row = 1)
 for child in notcheckedpassframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,S))
 
-passtimeframe = ttk.Frame(root, padding = "3 3 12 12")
-passtimelabel = ttk.Label(passtimeframe, text = "")
-passtimelabel.grid(column = 0, row = 0)
-passtimebutton = ttk.Button(passtimeframe, text = "Ok", command = hubfrompass)
+
+
+
+
+
 
 root.mainloop()
