@@ -1,7 +1,7 @@
-
 from tkinter import *
 from tkinter import ttk
 import random
+import classClass
 
 def generateRanPassTime():
     day = random.randint(0,4)
@@ -78,17 +78,35 @@ def hub(*args):
 def tutorialCatalog(*args):
     hubframe.grid_remove()
     catalogframe.grid()
-    Allcourse = []
-    for i in range(len(Allcourse)):
-        catalogCourseLabels.append(ttk.Label(catalogframe, text = Allcourse[i].retstr))
-        catalogCourseLabels[i].grid(column = i%8, row = i/8)
+    for i in range(len(classClass.Allcourse)):
+        catalogCourseLabels.append(ttk.Label(catalogframe, text = classClass.Allcourse[i].retstr()))
+        catalogCourseLabels[i].grid(column = int(i/15), row = i%15)
     for child in catalogframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
+    hubcatalogbutton["command"] = catalog
 
 def hubfromcatalog(*args):
     hubframe.grid()
     catalogframe.grid_remove()
-    hubsearchbutton["state"] = NORMAL
+    hubprogresssbutton["state"] = NORMAL
     hubtutoriallabel["text"] = "Amazing, now sign up for classes!"
+
+def tutorialProgress(*args):
+    progressframe.grid()
+    hubframe.grid_remove()
+    progressunitslabel["text"] = "Total Unit Requirement: " + str(units[0]) + "/180 units"
+    tb = geunits[0][0] + geunits[0][1] + geunits[0][2]
+    progresstblabel["text"] = "Topical Breadth: " + str(tb) + "/52 units"
+    for x in range(len(genames[0])):
+        gelabels.append(ttk.Label(progressframe, text = genames[0][x]+": " + str(geunits[0][x])+"/12 units (max of 20)"))
+        gelabels[x].grid(column = 0, row = 3+x)
+
+    for child in progressframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
+
+
+def hubfromtutprogress(*args):
+    hubframe.grid()
+    progressframe.grid_remove()
+    hubsearchbutton["state"] = NORMAL
 
 def tutorialSearch(*args):
     hubframe.grid_remove()
@@ -100,6 +118,9 @@ def tutorialCheckCourse(*args):
 def tutorialSubmit(*args):
     pass
 
+def catalog(*args):
+    hubframe.grid_remove()
+    catalogframe.grid()
 
 root = Tk()
 root.title("UC Davis Class Simulator")
@@ -123,14 +144,16 @@ hubpassbutton = ttk.Button(hubframe, text = "Check your pass time", command = tu
 hubpassbutton.grid(column = 0, row = 1, columnspan = 2)
 hubcatalogbutton = ttk.Button(hubframe, text = "Search the catalog", command = tutorialCatalog, state = DISABLED)
 hubcatalogbutton.grid(column = 0, row = 2, columnspan = 2)
+hubprogresssbutton = ttk.Button(hubframe, text = "Check your progress", command = tutorialProgress, state = DISABLED)
+hubprogresssbutton.grid(column = 0, row = 3, columnspan = 2)
 hubsearchbutton = ttk.Button(hubframe, text = "Search for courses", command = tutorialSearch, state = DISABLED)
-hubsearchbutton.grid(column = 0, row = 3, columnspan = 2)
+hubsearchbutton.grid(column = 0, row = 4, columnspan = 2)
 hubcheckcoursebutton = ttk.Button(hubframe, text = "Check what courses you've signed up for", command = tutorialCheckCourse, state = DISABLED)
-hubcheckcoursebutton.grid(column = 0, row = 4, columnspan = 2)
+hubcheckcoursebutton.grid(column = 0, row = 5, columnspan = 2)
 hubsubmitbutton = ttk.Button(hubframe, text = "Submit schedule", command = tutorialSubmit, state = DISABLED)
-hubsubmitbutton.grid(column = 0, row = 5, columnspan = 2)
+hubsubmitbutton.grid(column = 0, row = 6, columnspan = 2)
 hubtutoriallabel = ttk.Label(hubframe, text = "Click to check your pass time!")
-hubtutoriallabel.grid(column = 0, row = 6, columnspan = 2)
+hubtutoriallabel.grid(column = 0, row = 7, columnspan = 2)
 passtimelabel = ttk.Label(hubframe, text = "")
 year = [0]
 quarter = [0]
@@ -141,9 +164,30 @@ catalogframe.grid(column = 0, row = 0, sticky = (N,W,E,S))
 catalogframe.grid_remove()
 catalogCourseLabels = []
 catalogButton = ttk.Button(catalogframe, text = "Back to hub", command = hubfromcatalog)
-catalogButton.grid(row = 8, column = 0) # will change row depending on catalog later
+catalogButton.grid(row = 16, column = 0) # will change row depending on catalog later
 catalogTutorialLabel = ttk.Label(catalogframe, text = "This shows all the courses that go towards your major")
-catalogTutorialLabel.grid(row = 9, column = 0, columnspan = 2)
+catalogTutorialLabel.grid(row = 17, column = 0, columnspan = 2)
+
+progressframe = ttk.Frame(root, padding="3 3 12 12")
+progressframe.grid(column = 0, row = 0, sticky =(N,W,E,S))
+progressframe.grid_remove()
+progressunitslabel = ttk.Label(progressframe, text = "Units taken: ")
+progressunitslabel.grid(column = 0, row = 0)
+progressreturnbutton = ttk.Button(progressframe, text = "Return to hub", command = hubfromtutprogress)
+progressreturnbutton.grid(column = 1, row = 0)
+progressgelabel = ttk.Label(progressframe, text = "GE Requirements:")
+progressgelabel.grid(column = 0, row = 1)
+progresstblabel = ttk.Label(progressframe, text = "Topical Breadth:")
+progresstblabel.grid(column = 0, row = 2)
+progresscllabel = ttk.Label(progressframe, text = "Core Literacies:")
+progresscllabel.grid(column = 0, row = 6)
+progressmajorlabel = ttk.Label(progressframe, text = "Major Requirements:")
+progressmajorlabel.grid(column = 2, row = 1)
+units = [0]
+genames = [["Social Science", "Science and Engineering", "Arts and Humanities"], ["Writing Experience", "Oral Literacy or Writing Experience", "Visual Literacy", 
+"Domestic Diversity", "American Cultures, Governance, and History", "World Cultures", "Qualitative Literacy", "Scientific Literacy"]]
+geunits = [[0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]
+gelabels = []
 
 searchframe = ttk.Frame(root, padding="3 3 12 12")
 searchframe.grid(column = 0, row = 0, sticky =(N,W,E,S))
