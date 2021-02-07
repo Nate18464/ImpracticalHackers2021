@@ -121,12 +121,46 @@ def tutorialSearch(*args):
     searchframe.grid()
 
 def tutgesearch(*args):
-    pass
+    searchframe.grid_remove()
+    geframe.grid()
+    for x in range(3):
+        gebuttons.append(Radiobutton(geframe, text = genames[0][x], value=x, indicator=0, variable = gepicked1))
+        gebuttons[x].grid(column = 0, row = x+1)
+    for x in range(len(genames[1])):
+        gebuttons.append(Radiobutton(geframe, text = genames[1][x], value=x, indicator=0, variable = gepicked2))
+        gebuttons[x+3].grid(column = 0, row = x+5)
+    for child in geframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
+    gelabel4.grid_remove()
+
+def submitge(*args):
+    try:
+        if len(courseschosen) == 4 and gepicked1.get() != "" and gepicked2.get() != "":
+            gelabel4.grid()
+        else:
+            courseschosen.append(classClass.Course("GE", 4, [], False, [int(gepicked1.get()), int(gepicked2.get())]))
+        gebuttons[int(gepicked1.get())].deselect()
+        gebuttons[int(gepicked2.get())+3].deselect()
+    except(ValueError):
+        pass
+
+def hubfromgesearch(*args):
+    try:
+        if gepicked1.get() != "":
+            gebuttons[int(gepicked1.get())].deselect()
+        if gepicked2.get() != "":
+            gebuttons[int(gepicked2.get())+3].deselect()
+        gelabel4.grid_remove()
+        hubframe.grid()
+        geframe.grid_remove()
+        chooseGEbutton["command"] = gesearch
+        hubcheckcoursebutton["state"] = NORMAL
+    except(ValueError):
+        pass
 
 def mjrClsSearch(*args):
     searchframe.grid_remove()
-
     mjr_cls_frame.grid()
+    mjr_cls_label2.grid_remove() 
 
 def hubfromtutmajorsearch(*args):
     hubframe.grid()
@@ -135,11 +169,19 @@ def hubfromtutmajorsearch(*args):
     hubcheckcoursebutton["state"] = NORMAL
 
 def pick_mjr_class(*args):
-    selection = mjr_cls_picked.get()
-    index = int(selection)
-    courseschosen.append(selection)
-    mjr_cls_buttons[index]["state"] = DISABLED
-    mjr_cls_labels[index]["text"] = "You have choosen this class"
+    try:
+        if len(courseschosen)==4:
+            index = int(mjr_cls_picked.get())
+            mjr_cls_buttons[index].deselect()
+            mjr_cls_label2.grid()
+        else:
+            index = int(mjr_cls_picked.get())
+            courseschosen.append(classClass.Allcourse[index])
+            mjr_cls_buttons[index]["state"] = DISABLED
+            mjr_cls_labels[index]["text"] = "You have choosen this class"
+            mjr_cls_buttons[index].deselect()
+    except(ValueError):
+        pass
     
 
 def tutmajorsearch(*args):
@@ -159,7 +201,8 @@ def tutmajorsearch(*args):
         mjr_cls_labels.append(mjr_cls_label)
         mjr_cls_buttons[x].grid(column = int(x/8)*2, row = x%8 + 2)
         mjr_cls_labels[x].grid(column = int(x/8)*2+1, row = x%8 + 2)
-    for child in mjr_cls_frame.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
+    for child in mjr_cls_frame.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))   
+    mjr_cls_label2.grid_remove() 
 
 def tutorialCheckCourse(*args):
     pass
@@ -170,6 +213,11 @@ def tutorialSubmit(*args):
 def catalog(*args):
     hubframe.grid_remove()
     catalogframe.grid()
+
+def gesearch(*args):
+    searchframe.grid_remove()
+    hubframe.grid_remove()
+    geframe.grid()
 
 root = Tk()
 root.title("UC Davis Class Simulator")
@@ -252,6 +300,27 @@ chooseMajorclassbutton = ttk.Button(searchframe, text = "Choose Major Classes",c
 chooseMajorclassbutton.grid(column = 0, row = 1)
 for child in searchframe.winfo_children(): child.grid_configure(padx = 5, pady = 5, sticky =(N,W,E,S))
 
+geframe = ttk.Frame(root, padding = "3 3 12 12")
+geframe.grid(column = 0, row = 0, sticky = (N,W,E,S))
+geframe.grid_remove()
+gelabel = ttk.Label(geframe, text = "Choose what topical breadth you want to satisfy:")
+gelabel.grid(column = 0, row = 0)
+gelabel2 = ttk.Label(geframe, text = "Choose what core literacy you want to satisfy:")
+gelabel2.grid(column = 0, row = 4)
+gebutton = ttk.Button(geframe, text = "Choose this ge", command = submitge)
+gebutton.grid(column = 0, row = 15)
+gebutton2 = ttk.Button(geframe, text = "Go back to hub and choose ge", command = hubfromgesearch)
+gebutton2.grid(column = 0, row = 16)
+gelabel3 = ttk.Label(geframe, text = "(if you haven't selected the ge, it will go back to hub without choosing ge)")
+gelabel3.grid(column = 1, row = 16)
+gelabel4 = ttk.Label(geframe, text = "You've reached the max of 4 courses per quarter and cannot select more")
+gelabel4.grid(column = 1, row = 15)
+gelabel4.grid_remove()
+gebuttons = []
+gepicked1 = StringVar()
+gepicked2 = StringVar()
+gecombopicked = []
+
 #choosing your major class
 mjr_cls_frame = ttk.Frame(root, padding="3 3 12 12")
 mjr_cls_frame.grid(column = 0, row = 0, sticky =(N,W,E,S))
@@ -265,8 +334,11 @@ pick_mjr_cls_button = ttk.Button(mjr_cls_frame, text = "Pick this class", comman
 pick_mjr_cls_button.grid(column = 1, row = 11)
 mjr_class_return = ttk.Button(mjr_cls_frame, text = "Return to hub", command = hubfromtutmajorsearch)
 mjr_class_return.grid(column = 0, row = 11)
-
+mjr_cls_label2 = ttk.Label(mjr_cls_frame, text = "You've reached the max of 4 courses per quarter and cannot select more")
+mjr_cls_label2.grid(column = 2, row = 11, columnspan = 3)
+mjr_cls_label2.grid_remove()
 
 courseschosen = [] #list of course objects
 prereqtaken = [] #list of course objects
+
 root.mainloop()
