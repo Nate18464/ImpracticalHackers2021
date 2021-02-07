@@ -44,12 +44,10 @@ class Course:
                     string += " or "
             if i != len(self.prereqs)-1:
                 string += ", "
-            else:
-                string += " "
         return string
 
     def retstr(self):
-        return self.name + " Units: " + str(self.units) + " Prereqs: " + self.prereqstr()
+        return self.name + " - Units: " + str(self.units) + " (Prereqs: " + self.prereqstr() + ")"
 
     def canTake(self, courses_taken):
         if self.taken == True:
