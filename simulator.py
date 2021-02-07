@@ -115,6 +115,15 @@ def hubfromtutprogress(*args):
     hubframe.grid()
     progressframe.grid_remove()
     hubsearchbutton["state"] = NORMAL
+    for x in range(len(genames[0])-1,-1,-1):
+        gelabels[0].destroy()
+        gelabels.pop(0)
+    for x in range(len(genames[1])):
+        gelabels[0].destroy()
+        gelabels.pop(0)
+    for x in range(len(majornames)):
+        majorlabels[0].destroy()
+        majorlabels.pop(0)
 
 def tutorialSearch(*args):
     hubframe.grid_remove()
@@ -180,7 +189,7 @@ def pick_mjr_class(*args):
             courseschosen.append(classClass.Allcourse[index])
             coursechosenindex.append(index)
             mjr_cls_buttons[index]["state"] = DISABLED
-            mjr_cls_labels[index]["text"] = "You have choosen this class"
+            mjr_cls_labels[index]["text"] = "You have chosen this class"
             mjr_cls_buttons[index].deselect()
     except(ValueError):
         pass
@@ -232,7 +241,7 @@ def deselectClass(*args):
     selection = deselect_class_var.get()
     index = int(selection)
     # remove that class from the courses chosen
-    
+
     courseschosen.pop(index)
     coursechosenindex.pop(index)
     chosen_class_buttons[index].deselect()
